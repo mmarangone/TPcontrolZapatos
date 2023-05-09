@@ -2,9 +2,9 @@ package modelo;
 
 public class Color {
     private String descripcion;
-    private int codigo;
+    private String codigo;
 
-    public Color(String descripcion, int codigo) {
+    public Color(String descripcion, String codigo) {
         this.descripcion = descripcion;
         this.codigo = codigo;
     }
@@ -17,11 +17,11 @@ public class Color {
         this.descripcion = descripcion;
     }
 
-    public int getCodigo() {
+    public String getCodigo() {
         return codigo;
     }
 
-    public void setCodigo(int codigo) {
+    public void setCodigo(String codigo) {
         this.codigo = codigo;
     }
 }
