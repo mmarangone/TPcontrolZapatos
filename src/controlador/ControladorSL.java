@@ -24,6 +24,7 @@ public class ControladorSL implements ActionListener{
         SLV.ejecutar();
     }
 
+    /** Configuracion de botones **/
     public void configurarBotonCrearOP(JButton crearOPButton) {
         if (tieneOP()){
             crearOPButton.setEnabled(false);
@@ -68,6 +69,8 @@ public class ControladorSL implements ActionListener{
 
     }
 
+
+    /** Funciones **/
     public Boolean tieneOP(){
     Boolean var = false;
         if (repositorio.tieneOP(user)) {

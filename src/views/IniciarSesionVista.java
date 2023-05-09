@@ -20,6 +20,7 @@ public class IniciarSesionVista extends JFrame {
         setTitle("Iniciar Sesion");
         setSize(450,300);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
         //setVisible(true);
         setLocationRelativeTo(null);
         this.control = controler;
