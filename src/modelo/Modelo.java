@@ -5,26 +5,47 @@ import java.util.ArrayList;
 public class Modelo {
 
     private String descripcion;
-    private int sku;
+    private String sku;
+    private ArrayList<Color> colores;
 
-    public Modelo (String descripcion, int sku){
+    public Modelo (String descripcion, String sku){
         this.descripcion = descripcion;
         this.sku = sku;
+        this.colores = new ArrayList<>();
     }
 
-    public String getDescripcion() {
-        return descripcion;
+    public void agregarColor(Color c){
+        colores.add(c);
+    }
+    public void quitarColor(Color c){
+        colores.remove(c);
     }
 
-    public void setDescripcion(String descripcion) {
+    public Color getColor(Color c){
+        int index = colores.indexOf(c);
+        return colores.get(index);
+    }
+    public ArrayList<String> getDescripcion() {
+        ArrayList<String> descripciones = new ArrayList<>();
+        if (colores.isEmpty()){
+            descripciones.add(getSku()+"-Sin colores asociados");
+        } else {
+            for (Color c : colores) {
+                descripciones.add(getSku()+ "-" + c.getCodigo());
+            }
+        }
+        return descripciones;
+    }
+
+    /*public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
-    }
+    }*/
 
-    public int getSku() {
+    public String getSku() {
         return sku;
     }
 
-    public void setSku(int sku) {
+    public void setSku(String sku) {
         this.sku = sku;
     }
 }

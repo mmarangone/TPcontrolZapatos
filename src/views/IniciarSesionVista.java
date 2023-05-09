@@ -23,17 +23,8 @@ public class IniciarSesionVista extends JFrame {
         //setVisible(true);
         setLocationRelativeTo(null);
         this.control = controler;
+        control.configurarBotonIngresar(ingresarButton);
 
-        ingresarButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Boolean var = controler.chequearUsuario(getUsuario(),getPass());
-                if (var){
-                    JOptionPane.showMessageDialog(null, "Camino correcto!");
-                }
-                else {errorIngreso();}
-            }
-        });
     }
 
     public void errorIngreso(){
@@ -41,6 +32,9 @@ public class IniciarSesionVista extends JFrame {
     }
     public void ejecutar(){
         this.setVisible(true);
+    }
+    public void cerrar(){
+        this.setVisible(false);
     }
     public String getUsuario(){return userText.getText();}
     public String getPass(){return passText.getText();}
