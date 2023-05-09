@@ -20,8 +20,9 @@ public class SuperLineaVista extends JFrame {
         setContentPane(superLinea);
         setTitle("Menu Principal");
         setSize(450,300);
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        //setVisible(true);
+        //setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        setResizable(false);
         setLocationRelativeTo(null);
         this.controlSL = controlerSL;
         controlSL.configurarBotonCrearOP(crearOPButton);

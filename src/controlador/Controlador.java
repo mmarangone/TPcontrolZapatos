@@ -36,8 +36,8 @@ public class Controlador implements ActionListener {
                             ControladorSL csl = new ControladorSL(repositorio,repositorio.obtenerUsuario(ISV.getUsuario()),thisControlador );
                             break;
                         case "ADMINISTRADOR":
-                            System.out.println("Este usuario tiene el rol de admin.");
-                            // Aquí iría el código específico para el rol de admin
+                            ISV.cerrar();
+                            ControladorAdmin cad = new ControladorAdmin(repositorio,repositorio.obtenerUsuario(ISV.getUsuario()),thisControlador );
                             break;
                         default:
                             System.out.println("Rol desconocido.");
