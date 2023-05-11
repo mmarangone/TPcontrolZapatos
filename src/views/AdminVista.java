@@ -22,7 +22,7 @@ public class AdminVista extends JFrame{
         setResizable(false);
         setLocationRelativeTo(null);
         this.controlAdmin = controlerAdmin;
-        controlAdmin.configurarBotonSalir(salirButton);
+        controlAdmin.configurarBotonSalirMenu(salirButton);
         controlAdmin.configurarBotonGestionarModelos(gestionarModelosButton);
         controlAdmin.configurarBotonGestionarColores(gestionarColoresButton);
 
