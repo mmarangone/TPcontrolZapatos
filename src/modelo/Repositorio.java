@@ -10,6 +10,8 @@ public class Repositorio {
     //Usuarios
 
     ArrayList<Usuario> users = new ArrayList<>();
+    ArrayList<Modelo> modelos = new ArrayList<>();
+    ArrayList<Color> colores = new ArrayList<>();
     HashMap<LineaTrabajo,OrdenProduccion> ordenesDeProduccion;
 
     private static Repositorio miRepositorio;
@@ -47,7 +49,7 @@ public class Repositorio {
         Usuario sl3 = new Usuario(40215887, "Linea", "3",
                 "linea3@mail.com", "1234", Rol.SUPERLINEA);
         Usuario a1 = new Usuario(40215887, "Admin", "Admin",
-                "admin@mail.com", "1234", Rol.ADMINISTRADOR);
+                "admin", "admin", Rol.ADMINISTRADOR);
         users.add(c1);
         users.add(c2);
         users.add(c3);
@@ -62,6 +64,12 @@ public class Repositorio {
         Color co3 = new Color("Negro", "NG");
         Color co4 = new Color("Blanco", "BL");
         Color co5 = new Color("Rosa", "RS");
+
+        colores.add(co1);
+        colores.add(co2);
+        colores.add(co3);
+        colores.add(co4);
+        colores.add(co5);
 
         /** Modelos **/
         Modelo m1 = new Modelo("Nike Air Force", "NKAF");
@@ -80,6 +88,11 @@ public class Repositorio {
         m3.agregarColor(co3);
         m3.agregarColor(co5);
         m3.agregarColor(co2);
+
+        modelos.add(m1);
+        modelos.add(m2);
+        modelos.add(m3);
+
 
         /** Orden de produccion **/
         OrdenProduccion o1 = new OrdenProduccion(100,sl1 ,m1,m1.getColor(co2),c1);
@@ -166,6 +179,35 @@ public class Repositorio {
         return datosOp;
     }
 
+
+    /** ControladorAdmin **/
+    public ArrayList<Modelo> traerModelos(){
+        return modelos;
+    }
+
+    public Modelo getModelo(String sku){
+        Modelo modelo = null;
+        for (Modelo m : modelos){
+            if (m.getSku().equals(sku)){
+                modelo = m;
+            }
+        }
+        return modelo;
+    }
+
+    public Color getColor(String codigo){
+        Color c = null;
+        for (Color cl : colores){
+            if(cl.getCodigo().equals(codigo)){
+                c = cl;
+            }
+        }
+        return c;
+    }
+
+    public ArrayList<Color> getColoresDisponibles(){
+        return colores;
+    }
 
 
 }

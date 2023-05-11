@@ -25,16 +25,27 @@ public class Modelo {
         int index = colores.indexOf(c);
         return colores.get(index);
     }
-    public ArrayList<String> getDescripcion() {
-        ArrayList<String> descripciones = new ArrayList<>();
+    public ArrayList<Color> getColores(){
+        return colores;
+    }
+    public ArrayList<String> listarColores(){
+        ArrayList<String> lista = new ArrayList<>();
+        for (Color c : colores){
+            lista.add(c.getDescripcion());
+        }
+        return lista;
+    }
+    public String getDescripcion() {
+
+        /*  ArrayList<String> descripciones = new ArrayList<>();
         if (colores.isEmpty()){
             descripciones.add(getSku()+"-Sin colores asociados");
         } else {
             for (Color c : colores) {
                 descripciones.add(getSku()+ "-" + c.getCodigo());
             }
-        }
-        return descripciones;
+        }*/
+        return descripcion;
     }
 
     /*public void setDescripcion(String descripcion) {
