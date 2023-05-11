@@ -208,7 +208,26 @@ public class Repositorio {
     public ArrayList<Color> getColoresDisponibles(){
         return colores;
     }
+    public void agregarColorPaleta(Color c){
+        colores.add(c);
+    }
+    public Boolean checkColorExist(Color c){
+        Boolean var = false;
+        for (Color co : colores){
+            if (co.getCodigo().equals(c.getCodigo())){
+                var = true;
+            }
+        }
+        return var;
+    }
 
-
+    public void quitarColorPaleta(Color c) {
+        for (Modelo m : modelos) {
+            if (m.getColores().contains(c)) {
+                m.quitarColor(c);
+            }
+        }
+        colores.remove(c);
+    }
 }
 

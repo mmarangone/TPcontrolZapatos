@@ -117,12 +117,23 @@ public class ControladorAdmin implements ActionListener {
     }
 
     /** Vista Modificar Modelo **/
-    public void configurarBotonFinalizar(JButton finalizarButton){
+    public void configurarBotonFinalizarModificarModelo(JButton finalizarButton){
         finalizarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 MMV.cerrar();
                 GMV.ejecutar();
+
+            }
+        });
+    }
+
+    public void configurarBotonFinalizarGestionColores(JButton finalizarButton){
+        finalizarButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                GCV.cerrar();
+                AV.ejecutar();
 
             }
         });
@@ -141,7 +152,7 @@ public class ControladorAdmin implements ActionListener {
         colores = repositorio.getColoresDisponibles();
         return colores;
     }
-    public void agregarColor(Object[] color, Modelo m){
+    public void agregarColorModelo(Object[] color, Modelo m){
         String codigo = color[0].toString();
         Color c = repositorio.getColor(codigo);
         m.agregarColor(c);
@@ -149,6 +160,23 @@ public class ControladorAdmin implements ActionListener {
         MMV.completarTablaColores(m);
     }
 
+    /** Vista Gestion Colores **/
+    public void agregarColorPaleta(String codigo,String descripcion){
+        Color color = new Color(descripcion,codigo);
+        repositorio.agregarColorPaleta(color);
+        GCV.completarTabla();
+    }
+
+    public Boolean checkColorExist(String codigo, String descripcion){
+        Color c = new Color(descripcion,codigo);
+        return repositorio.checkColorExist(c);
+    }
+    public void quitarColorPaleta(Object[] modelo){
+        String codigo = modelo[0].toString();
+        Color c = repositorio.getColor(codigo);
+        repositorio.quitarColorPaleta(c);
+        GCV.completarTabla();
+    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
