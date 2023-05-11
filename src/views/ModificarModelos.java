@@ -34,7 +34,7 @@ public class ModificarModelos extends JFrame{
         completarTablaColores(m);
         configurarBotonQuitarColor();
         configurarBotonAgregarColor();
-        controlAdmin.configurarBotonFinalizar(finalizarButton);
+        controlAdmin.configurarBotonFinalizarModificarModelo(finalizarButton);
 
     }
 
@@ -106,7 +106,7 @@ public class ModificarModelos extends JFrame{
                     for (int i = 0; i < coloresTable.getColumnCount(); i++){
                         datosFila[i] = coloresTable.getValueAt(filaSeleccionada,i);
                     }
-                    controlAdmin.agregarColor(datosFila,modelo);
+                    controlAdmin.agregarColorModelo(datosFila,modelo);
                     //completarTablaModelos(modelo);
                     //completarTablaColores(modelo);
                 }else{
