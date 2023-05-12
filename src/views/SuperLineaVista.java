@@ -47,9 +47,9 @@ public class SuperLineaVista extends JFrame {
             labelLinea.setText("Linea: "+labels.get(2));
             labelSupCalidad.setText("Supervisor de Calidad: "+labels.get(3));
         }else {
-            labelOP.setText("Orden de produccion: -");
+            labelOP.setText("Orden de produccion: Sin OP asociada");
             labelLinea.setText("Linea: -");
-            labelSupCalidad.setText("Supervisor de Calidad: "+"");
+            labelSupCalidad.setText("Supervisor de Calidad: "+"-");
         }
 
     }
