@@ -82,12 +82,11 @@ public class ControladorAdmin implements ActionListener {
         });
 
     }
-    public void verModelo(Object[] modelo){
+    public void quitarModelo(Object[] modelo){
         String sku = modelo[0].toString();
          Modelo modeloSeleccionado = repositorio.getModelo(sku);
-         GMV.cerrar();
-         VMV = new VerModelos(thisControlador, modeloSeleccionado);
-         VMV.ejecutar();
+         repositorio.quitarModelo(modeloSeleccionado);
+         GMV.completarTabla();
 
     }
     public void modificarModelo(Object[] modelo){
@@ -102,6 +101,17 @@ public class ControladorAdmin implements ActionListener {
     ArrayList<Modelo> modelos = new ArrayList<>();
     modelos = repositorio.traerModelos();
     return modelos;
+    }
+    public Boolean checkModeloExist(String sku, String descripcion){
+        Modelo m = new Modelo(descripcion,sku);
+        return repositorio.checkModeloExist(m);
+    }
+    public void agregarModelo(String sku,String descripcion,String color){
+        Color c = repositorio.getColorPorDescripcion(color);
+        Modelo m = new Modelo(descripcion,sku);
+        m.agregarColor(c);
+        repositorio.agregarModelo(m);
+        GMV.completarTabla();
     }
 
     /** Vista Ver modelo **/
@@ -142,7 +152,7 @@ public class ControladorAdmin implements ActionListener {
         String sku = modelo[0].toString();
         String codigo = modelo[1].toString();
         Modelo modeloSeleccionado = repositorio.getModelo(sku);
-        Color c = repositorio.getColor(codigo);
+        Color c = repositorio.getColorPorCodigo(codigo);
         modeloSeleccionado.quitarColor(c);
         MMV.completarTablaModelos(modeloSeleccionado);
         MMV.completarTablaColores(modeloSeleccionado);
@@ -154,7 +164,7 @@ public class ControladorAdmin implements ActionListener {
     }
     public void agregarColorModelo(Object[] color, Modelo m){
         String codigo = color[0].toString();
-        Color c = repositorio.getColor(codigo);
+        Color c = repositorio.getColorPorCodigo(codigo);
         m.agregarColor(c);
         MMV.completarTablaModelos(m);
         MMV.completarTablaColores(m);
@@ -173,7 +183,7 @@ public class ControladorAdmin implements ActionListener {
     }
     public void quitarColorPaleta(Object[] modelo){
         String codigo = modelo[0].toString();
-        Color c = repositorio.getColor(codigo);
+        Color c = repositorio.getColorPorCodigo(codigo);
         repositorio.quitarColorPaleta(c);
         GCV.completarTabla();
     }

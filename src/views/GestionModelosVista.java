@@ -1,6 +1,7 @@
 package views;
 
 import controlador.ControladorAdmin;
+import modelo.Color;
 import modelo.Modelo;
 
 import javax.swing.*;
@@ -13,26 +14,33 @@ public class GestionModelosVista extends JFrame {
 
     private ControladorAdmin controlAdmin;
     private JPanel gestionModelos;
-    private JButton verButton;
+    private JButton quitarButton;
     private JButton modificarButton;
     private JTable tableModelos ;
-    private JButton salirButton;
+    private JButton finalizarButton;
+    private JButton agregarButton;
+    private JTextField skuText;
+    private JTextField descripText;
+    private JComboBox colorComboBox;
 
     public GestionModelosVista(ControladorAdmin controlerAdmin) {
         setContentPane(gestionModelos);
         setTitle("Gestion de Modelos");
-        setSize(600,300);
+        setSize(600,500);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         //setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         setResizable(false);
         setLocationRelativeTo(null);
         this.controlAdmin = controlerAdmin;
         completarTabla();
-        configBotonVer();
+        configBotonQuitar();
         configBotonModificar();
-        controlAdmin.configurarBotonSalirGestionModelos(salirButton);
+        configBotonAgregar();
+        completarComboBox();
+        controlAdmin.configurarBotonSalirGestionModelos(finalizarButton);
 
     }
+
 
     public void completarTabla (){
     DefaultTableModel model = new DefaultTableModel();
@@ -48,8 +56,45 @@ public class GestionModelosVista extends JFrame {
     tableModelos.setModel(model);
 
 }
-    public void configBotonVer(){
-        verButton.addActionListener(new ActionListener() {
+    public void completarComboBox(){
+        ArrayList<Color> colores = controlAdmin.traerColoresDisponibles();
+        colorComboBox.addItem("");
+        for (Color c : colores){
+            colorComboBox.addItem(c.getDescripcion());
+        }
+
+    }
+    public void configBotonAgregar(){
+        agregarButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String sku = skuText.getText();
+                String descripcion = descripText.getText();
+                String color = colorComboBox.getSelectedItem().toString();
+                if (color.isEmpty() || descripcion.isEmpty() || sku.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Faltan agregar datos");
+                } else {
+                    if (controlAdmin.checkModeloExist(sku, descripcion)) {
+                        JOptionPane.showMessageDialog(null, "Modelo ya existente");
+                        skuText.setText("");
+                        descripText.setText("");
+                        colorComboBox.setSelectedIndex(0);
+                    } else {
+                        controlAdmin.agregarModelo(sku, descripcion, color);
+                        skuText.setText("");
+                        descripText.setText("");
+                        colorComboBox.setSelectedIndex(0);
+                        JOptionPane.showMessageDialog(null, "Modelo agregado correctamente");
+                    }
+                }
+            }
+
+        });
+            }
+
+
+    public void configBotonQuitar(){
+        quitarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int filaSeleccionada = tableModelos.getSelectedRow();
@@ -58,7 +103,8 @@ public class GestionModelosVista extends JFrame {
                     for (int i = 0; i < tableModelos.getColumnCount(); i++){
                         datosFila[i] = tableModelos.getValueAt(filaSeleccionada,i);
                     }
-                    controlAdmin.verModelo(datosFila);
+                    controlAdmin.quitarModelo(datosFila);
+                    JOptionPane.showMessageDialog(null, "Modelo eliminado correctamente");
                 }else{
                     JOptionPane.showMessageDialog(null, "No se ha seleccionado ninguna fila");
                 }
@@ -84,6 +130,7 @@ public class GestionModelosVista extends JFrame {
             }
         });
     }
+
 
     public void ejecutar(){
         this.setVisible(true);

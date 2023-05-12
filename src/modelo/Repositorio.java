@@ -101,8 +101,8 @@ public class Repositorio {
 
         ordenesDeProduccion = new HashMap<LineaTrabajo, OrdenProduccion>();
         ordenesDeProduccion.put(L1,o1);
-        ordenesDeProduccion.put(L2,o2);
-        ordenesDeProduccion.put(L3,o3);
+        //ordenesDeProduccion.put(L2,o2);
+        //ordenesDeProduccion.put(L3,o3);
     }
 
     public ArrayList<Usuario> getUsers() {
@@ -195,10 +195,19 @@ public class Repositorio {
         return modelo;
     }
 
-    public Color getColor(String codigo){
+    public Color getColorPorCodigo(String codigo){
         Color c = null;
         for (Color cl : colores){
             if(cl.getCodigo().equals(codigo)){
+                c = cl;
+            }
+        }
+        return c;
+    }
+    public Color getColorPorDescripcion(String descripcion){
+        Color c = null;
+        for (Color cl : colores){
+            if(cl.getDescripcion().equals(descripcion)){
                 c = cl;
             }
         }
@@ -220,6 +229,15 @@ public class Repositorio {
         }
         return var;
     }
+    public Boolean checkModeloExist(Modelo m){
+        Boolean var = false;
+        for (Modelo mo : modelos){
+            if (mo.getSku().equals(m.getSku())){
+                var = true;
+            }
+        }
+        return var;
+    }
 
     public void quitarColorPaleta(Color c) {
         for (Modelo m : modelos) {
@@ -228,6 +246,12 @@ public class Repositorio {
             }
         }
         colores.remove(c);
+    }
+    public void quitarModelo(Modelo m){
+        modelos.remove(m);
+    }
+    public void agregarModelo(Modelo m){
+        modelos.add(m);
     }
 }
 
