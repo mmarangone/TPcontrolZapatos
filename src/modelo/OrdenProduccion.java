@@ -6,7 +6,7 @@ public class OrdenProduccion {
 
     public enum Estado{
         INICIADA,
-        ENPAUSA,
+        PAUSA,
         FINALIZADA
     }
     private int numero;

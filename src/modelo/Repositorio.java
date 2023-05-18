@@ -1,8 +1,9 @@
 package modelo;
 
+
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
+
 
 public class Repositorio {
 
@@ -12,7 +13,8 @@ public class Repositorio {
     ArrayList<Usuario> users = new ArrayList<>();
     ArrayList<Modelo> modelos = new ArrayList<>();
     ArrayList<Color> colores = new ArrayList<>();
-    HashMap<LineaTrabajo,OrdenProduccion> ordenesDeProduccion;
+    ArrayList<OrdenProduccion> ordenesFinalizadas = new ArrayList<>();
+    ArrayList<LineaTrabajo> lineasDeTrabajo = new ArrayList<>();
 
     private static Repositorio miRepositorio;
 
@@ -32,15 +34,20 @@ public class Repositorio {
         LineaTrabajo L2 = new LineaTrabajo(2);
         LineaTrabajo L3 = new LineaTrabajo(3);
 
+
+        lineasDeTrabajo.add(L1);
+        lineasDeTrabajo.add(L2);
+        lineasDeTrabajo.add(L3);
+
         /** Usuarios **/
 
         users = new ArrayList<>();
 
-        Usuario c1 = new Usuario(43426998, "Calidad", "1",
+        Usuario c1 = new Usuario(43426998, "Sergio", "Martinez",
                 "calidad1@mail.com", "1234", Rol.SUPERCALIDAD);
-        Usuario c2 = new Usuario(43426998, "Calidad", "2",
+        Usuario c2 = new Usuario(43426998, "Juan", "Perez",
                 "calidad2@mail.com", "1234", Rol.SUPERCALIDAD);
-        Usuario c3 = new Usuario(43426998, "Calidad", "3",
+        Usuario c3 = new Usuario(43426998, "Martin", "Gomez",
                 "calidad1@mail.com", "1234", Rol.SUPERCALIDAD);
         Usuario sl1 = new Usuario(40215887, "Linea", "1",
                 "linea1@mail.com", "1234", Rol.SUPERLINEA);
@@ -99,10 +106,11 @@ public class Repositorio {
         OrdenProduccion o2 = new OrdenProduccion(110,sl2,m2,m2.getColor(co5),c2);
         OrdenProduccion o3 = new OrdenProduccion(120,sl3,m3,m3.getColor(co4),c3);
 
-        ordenesDeProduccion = new HashMap<LineaTrabajo, OrdenProduccion>();
-        ordenesDeProduccion.put(L1,o1);
+        lineasDeTrabajo.get(0).ocuparLinea(o1);
         //ordenesDeProduccion.put(L2,o2);
         //ordenesDeProduccion.put(L3,o3);
+
+        ordenesFinalizadas = new ArrayList<>();
     }
 
     public ArrayList<Usuario> getUsers() {
@@ -155,28 +163,80 @@ public class Repositorio {
     /** ControladorSL **/
     public Boolean tieneOP(Usuario u){
         Boolean var = false;
-        for (Map.Entry<LineaTrabajo,OrdenProduccion> hm : ordenesDeProduccion.entrySet()) {
+        for (LineaTrabajo l : lineasDeTrabajo){
+            if (l.getEstado().toString().equals("NODISPONIBLE")) {
+                OrdenProduccion op = l.getOp();
+                if (op.getUser().equals(u)) {
+                    var = true;
+                }
+            }
+        }
+        /*for (Map.Entry<LineaTrabajo,OrdenProduccion> hm : ordenesDeProduccion.entrySet()) {
             OrdenProduccion op = hm.getValue();
             if(op.getUser().equals(u)){
                 var = true;
             }
-        }
+        }*/
         return var;
     }
 
     public ArrayList<String> datosOP(Usuario u){
         ArrayList<String> datosOp = new ArrayList<>();
-        for (Map.Entry<LineaTrabajo,OrdenProduccion> hm : ordenesDeProduccion.entrySet()) {
-            OrdenProduccion op = hm.getValue();
-            if(op.getUser().equals(u)){
-                datosOp.add(op.getEstado().toString());
-                datosOp.add(String.valueOf(op.getNumero()));
-                datosOp.add(String.valueOf(hm.getKey().getNumero()));
-                datosOp.add(op.getSupCalidad().getNombre()+" "+op.getSupCalidad().getApellido());
+        for (LineaTrabajo l : lineasDeTrabajo) {
+            if (l.getEstado().toString().equals("NODISPONIBLE")) {
+                OrdenProduccion op = l.getOp();
+                if (op.getUser().equals(u)) {
+                    datosOp.add(op.getEstado().toString());
+                    datosOp.add(String.valueOf(op.getNumero()));
+                    datosOp.add(String.valueOf(l.getNumero()));
+                    datosOp.add(op.getSupCalidad().getNombre() + " " + op.getSupCalidad().getApellido());
+                    datosOp.add(op.getModel().getDescripcion());
+                    datosOp.add(op.getColor().getDescripcion());
 
+                }
             }
         }
         return datosOp;
+    }
+    public void pausarOP(int numeroOP){
+        OrdenProduccion op = getOP(numeroOP);
+        op.setEstado(OrdenProduccion.Estado.PAUSA);
+    }
+    public void reanudarOP(int numeroOP){
+        OrdenProduccion op = getOP(numeroOP);
+        op.setEstado(OrdenProduccion.Estado.INICIADA);
+    }
+    public void finalizarOP(int numeroOP){
+        OrdenProduccion op = getOP(numeroOP);
+        for (LineaTrabajo l : lineasDeTrabajo) {
+            if (l.getEstado().toString().equals("NODISPONIBLE")) {
+                if (l.getOp().getNumero() == numeroOP) {
+                    op.setEstado(OrdenProduccion.Estado.FINALIZADA);
+                    ordenesFinalizadas.add(op);
+                    l.desocuparLinea();
+                }
+            }
+        }
+
+    }
+
+    public OrdenProduccion getOP(int numero){
+        OrdenProduccion op = null;
+        for (LineaTrabajo l : lineasDeTrabajo) {
+            if (l.getEstado().toString().equals("NODISPONIBLE")) {
+                if (l.getOp().getNumero() == numero) {
+                    op = l.getOp();
+                }
+
+            }
+        }
+        return op;
+    }
+
+    public ArrayList<Color> traerColoresModelo(Modelo m){
+        ArrayList<Color> colors = null;
+        colors = m.getColores();
+        return colors;
     }
 
 
@@ -214,6 +274,15 @@ public class Repositorio {
         return c;
     }
 
+    public Modelo getModeloPorDescripcion(String descripcion){
+        Modelo m = null;
+        for (Modelo mo : modelos){
+            if(mo.getDescripcion().equals(descripcion)){
+                m = mo;
+            }
+        }
+        return m;
+    }
     public ArrayList<Color> getColoresDisponibles(){
         return colores;
     }
@@ -252,6 +321,106 @@ public class Repositorio {
     }
     public void agregarModelo(Modelo m){
         modelos.add(m);
+    }
+    public Boolean chequearDisponibilidadLineas(){
+        Boolean var = false;
+        String estado;
+        for (LineaTrabajo l : lineasDeTrabajo){
+            estado = l.getEstado().toString();
+            if (l.getEstado().toString().equals("DISPONIBLE")){
+                var = true;
+            }
+        }
+        return var;
+    }
+
+    public ArrayList<String> traerSupervisoresLibres(){
+        ArrayList<String> supOcupados = new ArrayList<>();
+        ArrayList<String> supLibres = new ArrayList<>();
+        ArrayList<Usuario> supervisores = new ArrayList<>();
+        int bandera = 0;
+        for (Usuario u : users){
+            if(u.getRol().toString().equals("SUPERCALIDAD")){
+                supervisores.add(u);
+            }
+        }
+        for (Usuario us : supervisores) {
+            for (LineaTrabajo l : lineasDeTrabajo) {
+                if (l.getEstado().toString().equals("NODISPONIBLE")) {
+                    if(l.getOp().getSupCalidad().equals(us)) {
+                        supOcupados.add(us.toString());
+                    }
+                    }
+            }
+        }
+            if (supOcupados.isEmpty()){
+                for (Usuario user : supervisores){
+                    supLibres.add(user.toString());
+                }
+            }else {
+                for (Usuario user : supervisores) {
+                    for (String ocu : supOcupados) {
+                        if (!user.toString().equals(ocu)) {
+                            supLibres.add(user.toString());
+                        }
+                    }
+                }
+            }
+
+                /*if (supOcupados!= null){
+                    for (Usuario u : supervisores){
+                    for (String so : supOcupados){
+                        if(!(u.getNombre()+" "+u.getApellido()).equals(so)){
+                            supLibres.add(u.getNombre()+" "+u.getApellido());
+                        }
+                    }
+                }}*/
+                return supLibres;
+
+    }
+    public ArrayList<String> traerLineasLibres(){
+        ArrayList<String> lineasLibres = new ArrayList<>();
+        for (LineaTrabajo l : lineasDeTrabajo){
+            if(l.getEstado().toString().equals("DISPONIBLE")){
+                lineasLibres.add(String.valueOf(l.getNumero()));
+            }
+        }
+        return lineasLibres;
+    }
+
+    public void crearOP(ArrayList<String> datos){
+        int linea = Integer.parseInt(datos.get(0));
+        int numero = Integer.parseInt(datos.get(1));
+        Usuario u = obtenerUsuario(datos.get(2));
+        Modelo m = getModeloPorDescripcion(datos.get(3));
+        Color c = getColorPorDescripcion(datos.get(4));
+        Usuario sc = buscarSupCalidad(datos.get(5));
+        OrdenProduccion op = new OrdenProduccion(numero, u, m, c, sc);
+        for (LineaTrabajo l : lineasDeTrabajo){
+            if(l.getNumero() == linea){
+                l.ocuparLinea(op);
+            }
+        }
+
+    }
+    public Usuario buscarSupCalidad(String nombreCompleto){
+        String[] partes = nombreCompleto.split(" ");
+        String nombre = partes[0];
+        String apellido = partes[1];
+        Usuario u = buscarUsuarioPorNombreApellido(nombre,apellido);
+        return u;
+
+    }
+    public Usuario buscarUsuarioPorNombreApellido(String nombre, String apellido){
+        Usuario u = null;
+        for (Usuario us : users){
+            if (us.getApellido().equals(apellido)){
+                if(us.getNombre().equals(nombre)){
+                    u=us;
+                }
+            }
+        }
+        return u;
     }
 }
 

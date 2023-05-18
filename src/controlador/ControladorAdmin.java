@@ -15,7 +15,6 @@ public class ControladorAdmin implements ActionListener {
     private AdminVista AV;
     private GestionModelosVista GMV;
     private GestionColoresVista GCV;
-    private VerModelos VMV;
     private ModificarModelos MMV;
     private Repositorio repositorio;
     private Usuario user;
@@ -112,18 +111,6 @@ public class ControladorAdmin implements ActionListener {
         m.agregarColor(c);
         repositorio.agregarModelo(m);
         GMV.completarTabla();
-    }
-
-    /** Vista Ver modelo **/
-    public void configBotonCerrar(JButton cerrarButton){
-        cerrarButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                VMV.cerrar();
-                GMV.ejecutar();
-
-            }
-        });
     }
 
     /** Vista Modificar Modelo **/

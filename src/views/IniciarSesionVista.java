@@ -32,7 +32,10 @@ public class IniciarSesionVista extends JFrame {
         mensajeLabel.setText("Usuario/Contraseña incorrecto");
     }
     public void ejecutar(){
+
         this.setVisible(true);
+        userText.setText("");
+        passText.setText("");
     }
     public void cerrar(){
         this.setVisible(false);
