@@ -5,28 +5,31 @@ import java.util.HashMap;
 
 public class LineaTrabajo {
     public enum Estado{
-        Disponible,
-        NoDisponible
+        DISPONIBLE,
+        NODISPONIBLE
     }//Posibles estados, por defecto estará disponible al momento de la creacion
     private int numero;
     private Estado estado;
-    private HashMap<String,OrdenProduccion> lineaOcupada;
+    private OrdenProduccion op;
 
     public LineaTrabajo(int numero) {
         this.numero = numero;
-        this.estado = Estado.Disponible;
+        this.estado = Estado.DISPONIBLE;
     }
 
-    public void ocuparLinea (String supervisor, OrdenProduccion op){
-        this.estado = Estado.NoDisponible;
-        lineaOcupada = new HashMap<>();
-        lineaOcupada.put(supervisor, op);
+    public void ocuparLinea (OrdenProduccion op){
+        this.estado = Estado.NODISPONIBLE;
+        this.op = op;
     }
 
     public void desocuparLinea(){
-        if (this.estado == Estado.NoDisponible){
-            this.estado = Estado.Disponible;
+        if (this.estado == Estado.NODISPONIBLE){
+            this.estado = Estado.DISPONIBLE;
+            this.op = null;
         }
+    }
+    public OrdenProduccion getOp(){
+        return op;
     }
 
     public int getNumero() {
@@ -45,11 +48,5 @@ public class LineaTrabajo {
         this.estado = estado;
     }
 
-    public HashMap<String, OrdenProduccion> getLineaOcupada() {
-        return lineaOcupada;
     }
 
-    public void setLineaOcupada(HashMap<String, OrdenProduccion> lineaOcupada) {
-        this.lineaOcupada = lineaOcupada;
-    }
-}

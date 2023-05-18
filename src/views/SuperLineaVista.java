@@ -25,32 +25,40 @@ public class SuperLineaVista extends JFrame {
         setResizable(false);
         setLocationRelativeTo(null);
         this.controlSL = controlerSL;
-        controlSL.configurarBotonCrearOP(crearOPButton);
-        controlSL.configurarBotonVerOP(verOPButton);
-        controlSL.configurarBotonSalir(salirButton);
+
+        configuracionBotones();
         completarLabels();
 
-    }
-
-    public void ejecutar(){
-        this.setVisible(true);
-    }
-    public void cerrar(){
-        this.setVisible(false);
     }
 
     public void completarLabels(){
         if (controlSL.tieneOP()){
             ArrayList<String> labels;
             labels = controlSL.datosOP();
-            labelOP.setText("Orden de produccion: "+labels.get(0)+"-"+labels.get(1));
-            labelLinea.setText("Linea: "+labels.get(2));
-            labelSupCalidad.setText("Supervisor de Calidad: "+labels.get(3));
+            labelOP.setText("N°: "+labels.get(1)+"-"+labels.get(0));
+            labelLinea.setText(""+labels.get(2));
+            labelSupCalidad.setText(""+labels.get(3));
         }else {
-            labelOP.setText("Orden de produccion: Sin OP asociada");
-            labelLinea.setText("Linea: -");
-            labelSupCalidad.setText("Supervisor de Calidad: "+"-");
+            labelOP.setText("Sin OP asociada");
+            labelLinea.setText("-");
+            labelSupCalidad.setText("-");
         }
 
     }
+    public void configuracionBotones(){
+        controlSL.configurarBotonCrearOP(crearOPButton);
+        controlSL.configurarBotonVerOP(verOPButton);
+        controlSL.configurarBotonSalir(salirButton);
+    }
+    public void ejecutar(){
+        this.setVisible(true);
+    }
+    public void cerrar(){
+        this.setVisible(false);
+    }
+    public void mensajeNoDisponible(){
+        JOptionPane.showMessageDialog(null,"No hay lineas disponibles");
+    }
+
+
 }

@@ -38,4 +38,9 @@ public class Usuario extends Empleado{
     public void setRol(Rol rol) {
         this.rol = rol;
     }
+
+    @Override
+    public String toString(){
+        return getNombre()+" "+getApellido();
+    }
 }

@@ -26,7 +26,6 @@ public class Controlador implements ActionListener {
                 Boolean var = chequearUsuario(ISV.getUsuario(),ISV.getPass());
                 if (var){
                     String rol = rolUsuario(ISV.getUsuario(),ISV.getPass());
-                    JOptionPane.showMessageDialog(null, "Camino correcto!");
                     switch (rol) {
                         case "SUPERCALIDAD":
                             JOptionPane.showMessageDialog(null, "Supervisor de Calidad en proceso");
@@ -65,7 +64,7 @@ public class Controlador implements ActionListener {
     }
 
     public void ejecutarVista(){
-        ISV = new IniciarSesionVista (thisControlador);
+        //ISV = new IniciarSesionVista (thisControlador);
         ISV.ejecutar();
 
     }
