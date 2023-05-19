@@ -8,6 +8,7 @@ public class ConfirmacionDialog extends JDialog {
     private boolean confirmed = false;
     private JButton yesButton = new JButton("Sí");
     private JButton noButton = new JButton("No");
+    private int var = 0;
 
 
     public ConfirmacionDialog(JFrame parent, String title, String message) {
@@ -47,6 +48,13 @@ public class ConfirmacionDialog extends JDialog {
 
     public void cerrar(){
         setVisible(false);
+    }
+
+    public void setVarEn1(){
+        this.var = 1;
+    }
+    public int getVar(){
+        return this.var;
     }
 
 }

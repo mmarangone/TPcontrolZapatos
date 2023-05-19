@@ -36,6 +36,7 @@ public class IniciarSesionVista extends JFrame {
         this.setVisible(true);
         userText.setText("");
         passText.setText("");
+        mensajeLabel.setText("");
     }
     public void cerrar(){
         this.setVisible(false);
