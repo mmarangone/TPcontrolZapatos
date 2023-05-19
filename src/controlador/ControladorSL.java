@@ -21,6 +21,7 @@ public class ControladorSL implements ActionListener{
     private Usuario user;
     private Controlador controlador;
     private ControladorSL thisControlador = this;
+    private ConfirmacionDialog confirmacionDialog;
     public ControladorSL (Repositorio repo, Usuario u, Controlador c){
         this.repositorio = repo;
         this.user = u;
@@ -132,21 +133,13 @@ public class ControladorSL implements ActionListener{
     }
     public void configurarBotonFinalizar(JButton finalizarBoton){
         ArrayList<String> datosOP = datosOP();
-        ConfirmacionDialog confirmacionDialog = new ConfirmacionDialog(VOPV, "Confirmación", "¿Está seguro de finalizar la OP?");
+        confirmacionDialog = new ConfirmacionDialog(VOPV, "Confirmación", "¿Está seguro de finalizar la OP?");
         if (datosOP.get(0).equals("INICIADA")){
             finalizarBoton.setEnabled(true);
             finalizarBoton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    confirmacionDialog.setVisible(true);
-                    // Esperar la respuesta del usuario antes de continuar
-                    if (confirmacionDialog.isConfirmed()) {
-                        finalizarOP(datosOP.get(1));
-                        VOPV.cerrar();
-                        SLV.ejecutar();
-                        SLV.completarLabels();
-                        SLV.configuracionBotones();
-                    }
+                    funcion(datosOP);
                 }
             });
         }else{
@@ -235,6 +228,22 @@ public class ControladorSL implements ActionListener{
         SLV.ejecutar();
         SLV.completarLabels();
         SLV.configuracionBotones();
+    }
+
+    public void funcion(ArrayList<String> datosOP){
+        if (confirmacionDialog.getVar() == 0) { // Verificar si el diálogo ya está visible
+            confirmacionDialog.setVisible(true);
+            confirmacionDialog.setVarEn1();
+            // Esperar la respuesta del usuario antes de continuar
+            if (confirmacionDialog.isConfirmed()) {
+                finalizarOP(datosOP.get(1));
+                VOPV.cerrar();
+                SLV.ejecutar();
+                SLV.completarLabels();
+                SLV.configuracionBotones();
+
+            }
+        }
     }
     @Override
     public void actionPerformed(ActionEvent e) {
