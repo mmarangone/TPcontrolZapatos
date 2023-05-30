@@ -139,7 +139,7 @@ public class ControladorSL implements ActionListener{
             finalizarBoton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    funcion(datosOP);
+                    dialogConfirm(datosOP);
                 }
             });
         }else{
@@ -230,7 +230,7 @@ public class ControladorSL implements ActionListener{
         SLV.configuracionBotones();
     }
 
-    public void funcion(ArrayList<String> datosOP){
+    public void dialogConfirm(ArrayList<String> datosOP){
         if (confirmacionDialog.getVar() == 0) { // Verificar si el diálogo ya está visible
             confirmacionDialog.setVisible(true);
             confirmacionDialog.setVarEn1();
