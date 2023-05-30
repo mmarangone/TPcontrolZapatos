@@ -69,6 +69,7 @@ public class ControladorAdmin implements ActionListener {
 
     }
 
+
     /** Vista Gestion de Modelos**/
     public void configurarBotonSalirGestionModelos(JButton salirButton) {
         salirButton.addActionListener(new ActionListener() {
@@ -96,6 +97,8 @@ public class ControladorAdmin implements ActionListener {
         MMV.ejecutar();
 
     }
+
+    //Funciones
     public ArrayList<Modelo> traerModelos(){
     ArrayList<Modelo> modelos = new ArrayList<>();
     modelos = repositorio.traerModelos();

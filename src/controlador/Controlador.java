@@ -49,8 +49,7 @@ public class Controlador implements ActionListener {
 
             }
 
-
-
+    //Funciones
     public Boolean chequearUsuario(String user, String pass){
         Boolean var = false;
         var = repositorio.chequearUsuario(user,pass);
@@ -68,12 +67,6 @@ public class Controlador implements ActionListener {
         ISV.ejecutar();
 
     }
-
-    /*public Usuario obtenerUsuario(String user){
-
-        return
-
-    }*/
 
     @Override
     public void actionPerformed(ActionEvent e) {
